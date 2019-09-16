@@ -91,6 +91,6 @@ env.Append(CPPPATH=["libressl-2.2.4/include"])
 
 env.Depends("hash_ressl.cpp", libssl)
 
-env.Append(CPPPATH=["../../src"])
+env.Append(CPPPATH=["../../common"])
 env.Append(LIBS=[x for x in [libhash, libssl] if x])
 env.SharedLibrary("neon_hash", ["hash.cpp", "hash_ressl.cpp"])
