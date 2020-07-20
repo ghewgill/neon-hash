@@ -4,7 +4,6 @@
  |  Functions for hashing data using a variety of algorithms.
  |#
 
-EXPORT crc32
 EXPORT md5
 EXPORT md5Raw
 EXPORT sha1
@@ -13,15 +12,6 @@ EXPORT sha256
 EXPORT sha256Raw
 EXPORT sha512
 EXPORT sha512Raw
-EXPORT sha3
-EXPORT sha3Raw
-
-#|
- |  Function: crc32
- |
- |  Return the CRC32 of given <Bytes>.
- |#
-DECLARE EXTENSION FUNCTION crc32(data: Bytes): Number
 
 #|
  |  Function: md5
@@ -78,17 +68,3 @@ DECLARE EXTENSION FUNCTION sha512(data: Bytes): String
  |  Return the SHA512 hash of given <Bytes> as a raw <Bytes>.
  |#
 DECLARE EXTENSION FUNCTION sha512Raw(data: Bytes): Bytes
-
-#|
- |  Function: sha3
- |
- |  Return the SHA3 hash of given <Bytes> as a hex string.
- |#
-DECLARE EXTENSION FUNCTION sha3(data: Bytes): String
-
-#|
- |  Function: sha3Raw
- |
- |  Return the SHA3 hash of given <Bytes> as a raw <Bytes>.
- |#
-DECLARE EXTENSION FUNCTION sha3Raw(data: Bytes): Bytes

@@ -2,12 +2,10 @@
 #define _CRT_SECURE_NO_WARNINGS
 #endif
 
-#include <stdio.h>
+#include <string>
 
-#include "crc32.h"
-#include "md5.h"
-#include "sha1.h"
-#include "sha3.h"
+#include "openssl/md5.h"
+#include "openssl/sha.h"
 
 #include "neonext.h"
 
@@ -29,18 +27,6 @@ static std::string to_hex(const unsigned char *hash, int len)
     return r;
 }
 
-static std::string to_binary(const std::string &str)
-{
-    std::string r;
-    r.reserve(str.length()/2);
-    for (std::string::size_type i = 0; i < str.length(); i += 2) {
-        int c;
-        sscanf(&str[i], "%2x", &c);
-        r.push_back(static_cast<char>(c));
-    }
-    return r;
-}
-
 extern "C" {
 
 Ne_EXPORT int Ne_INIT(const Ne_MethodTable *methodtable)
@@ -49,25 +35,12 @@ Ne_EXPORT int Ne_INIT(const Ne_MethodTable *methodtable)
     return Ne_SUCCESS;
 }
 
-Ne_FUNC(Ne_crc32)
-{
-    Ne_Bytes bytes = Ne_PARAM_BYTES(0);
-
-    CRC32 crc32;
-    crc32(bytes.ptr, bytes.len);
-    unsigned char buf[CRC32::HashBytes];
-    crc32.getHash(buf);
-    Ne_RETURN_UINT((buf[0] << 24) | (buf[1] << 16) | (buf[2] << 8) | buf[3]);
-}
-
 Ne_FUNC(Ne_md5Raw)
 {
     Ne_Bytes bytes = Ne_PARAM_BYTES(0);
 
-    MD5 md5;
-    md5(bytes.ptr, bytes.len);
-    unsigned char buf[MD5::HashBytes];
-    md5.getHash(buf);
+    unsigned char buf[MD5_DIGEST_LENGTH];
+    MD5(bytes.ptr, bytes.len, buf);
     Ne_RETURN_BYTES(buf, sizeof(buf));
 }
 
@@ -75,21 +48,18 @@ Ne_FUNC(Ne_md5)
 {
     Ne_Bytes bytes = Ne_PARAM_BYTES(0);
 
-    MD5 md5;
-    md5(bytes.ptr, bytes.len);
-    unsigned char buf[MD5::HashBytes];
-    md5.getHash(buf);
-    Ne_RETURN_STRING(to_hex(buf, sizeof(buf)).c_str());
+    unsigned char buf[MD5_DIGEST_LENGTH];
+    MD5(bytes.ptr, bytes.len, buf);
+    std::string hash = to_hex(buf, sizeof(buf));
+    Ne_RETURN_BYTES(reinterpret_cast<const unsigned char *>(hash.data()), static_cast<int>(hash.length()));
 }
 
 Ne_FUNC(Ne_sha1Raw)
 {
     Ne_Bytes bytes = Ne_PARAM_BYTES(0);
 
-    SHA1 sha1;
-    sha1(bytes.ptr, bytes.len);
-    unsigned char buf[SHA1::HashBytes];
-    sha1.getHash(buf);
+    unsigned char buf[SHA_DIGEST_LENGTH];
+    SHA1(bytes.ptr, bytes.len, buf);
     Ne_RETURN_BYTES(buf, sizeof(buf));
 }
 
@@ -97,27 +67,47 @@ Ne_FUNC(Ne_sha1)
 {
     Ne_Bytes bytes = Ne_PARAM_BYTES(0);
 
-    SHA1 sha1;
-    sha1(bytes.ptr, bytes.len);
-    unsigned char buf[SHA1::HashBytes];
-    sha1.getHash(buf);
-    Ne_RETURN_STRING(to_hex(buf, sizeof(buf)).c_str());
+    unsigned char buf[SHA_DIGEST_LENGTH];
+    SHA1(bytes.ptr, bytes.len, buf);
+    std::string hash = to_hex(buf, sizeof(buf));
+    Ne_RETURN_BYTES(reinterpret_cast<const unsigned char *>(hash.data()), static_cast<int>(hash.length()));
 }
 
-Ne_FUNC(Ne_sha3)
+Ne_FUNC(Ne_sha256Raw)
 {
     Ne_Bytes bytes = Ne_PARAM_BYTES(0);
 
-    SHA3 sha3;
-    Ne_RETURN_STRING(sha3(bytes.ptr, bytes.len).c_str());
+    unsigned char buf[SHA256_DIGEST_LENGTH];
+    SHA256(bytes.ptr, bytes.len, buf);
+    Ne_RETURN_BYTES(buf, sizeof(buf));
 }
 
-Ne_FUNC(Ne_sha3Raw)
+Ne_FUNC(Ne_sha256)
 {
     Ne_Bytes bytes = Ne_PARAM_BYTES(0);
 
-    SHA3 sha3;
-    std::string hash = to_binary(sha3(bytes.ptr, bytes.len));
+    unsigned char buf[SHA256_DIGEST_LENGTH];
+    SHA256(bytes.ptr, bytes.len, buf);
+    std::string hash = to_hex(buf, sizeof(buf));
+    Ne_RETURN_BYTES(reinterpret_cast<const unsigned char *>(hash.data()), static_cast<int>(hash.length()));
+}
+
+Ne_FUNC(Ne_sha512Raw)
+{
+    Ne_Bytes bytes = Ne_PARAM_BYTES(0);
+
+    unsigned char buf[SHA512_DIGEST_LENGTH];
+    SHA512(bytes.ptr, bytes.len, buf);
+    Ne_RETURN_BYTES(buf, sizeof(buf));
+}
+
+Ne_FUNC(Ne_sha512)
+{
+    Ne_Bytes bytes = Ne_PARAM_BYTES(0);
+
+    unsigned char buf[SHA512_DIGEST_LENGTH];
+    SHA512(bytes.ptr, bytes.len, buf);
+    std::string hash = to_hex(buf, sizeof(buf));
     Ne_RETURN_BYTES(reinterpret_cast<const unsigned char *>(hash.data()), static_cast<int>(hash.length()));
 }
 

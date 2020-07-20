@@ -1,7 +1,16 @@
 hash-library/
 libressl-2.2.4/
 
+CMakeCache.txt
+CMakeFiles/
+*.cmake
+Makefile
+
 etc/
 include/
 lib/
 share/
+
+*.a
+*.so
+*.neonx

@@ -1,0 +1,10 @@
+image: archlinux
+packages:
+- cmake
+sources:
+- https://github.com/ghewgill/neon-hash
+tasks:
+- build: |
+    cd neon-hash
+    cmake .
+    cmake --build .
