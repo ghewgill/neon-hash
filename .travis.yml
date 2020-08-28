@@ -14,3 +14,9 @@ jobs:
           compiler: clang
 script:
   - cmake . && cmake --build .
+  - cd ..
+  - git clone https://github.com/ghewgill/neon-lang
+  - ln -s ../../neon-hash neon-lang/lib/hash
+  - cd neon-lang
+  - cmake . && cmake --build .
+  - ctest -R hash
