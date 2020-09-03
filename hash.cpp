@@ -70,7 +70,7 @@ Ne_FUNC(Ne_toHex)
         r[2*i] = hex_digit(b >> 4);
         r[2*i+1] = hex_digit(b & 0xf);
     }
-    Ne_RETURN_BYTES(reinterpret_cast<const unsigned char *>(r.data()), static_cast<int>(r.length()));
+    Ne_RETURN_STRING(r.c_str());
 }
 
 } // extern "C"

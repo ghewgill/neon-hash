@@ -43,4 +43,4 @@ DECLARE EXTENSION FUNCTION sha512(data: Bytes): Bytes
  |
  |  Convert a hash as <Bytes> to its hex representation.
  |#
-DECLARE EXTENSION FUNCTION toHex(hash: Bytes): Bytes
+DECLARE EXTENSION FUNCTION toHex(hash: Bytes): String

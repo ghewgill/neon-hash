@@ -6,6 +6,8 @@ FUNCTION sha1(s: String): Bytes RETURN hash.sha1(s.toBytes()) END FUNCTION
 FUNCTION sha256(s: String): Bytes RETURN hash.sha256(s.toBytes()) END FUNCTION
 FUNCTION sha512(s: String): Bytes RETURN hash.sha512(s.toBytes()) END FUNCTION
 
+TESTCASE hash.toHex(md5("")) = "d41d8cd98f00b204e9800998ecf8427e"
+
 TESTCASE md5("") = HEXBYTES "d41d8cd98f00b204e9800998ecf8427e"
 TESTCASE md5("a") = HEXBYTES "0cc175b9c0f1b6a831c399e269772661"
 TESTCASE md5("abc") = HEXBYTES "900150983cd24fb0d6963f7d28e17f72"
