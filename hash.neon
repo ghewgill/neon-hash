@@ -1,8 +1,6 @@
-#|
- |  File: hash
- |
- |  Functions for hashing data using a variety of algorithms.
- |#
+--  File: hash
+--
+--  Functions for hashing data using a variety of algorithms.
 
 EXPORT md5
 EXPORT sha1
@@ -10,37 +8,27 @@ EXPORT sha256
 EXPORT sha512
 EXPORT toHex
 
-#|
- |  Function: md5
- |
- |  Return the MD5 hash of given <Bytes> as a raw <Bytes>.
- |#
+--  Function: md5
+--
+--  Return the MD5 hash of given <Bytes> as a raw <Bytes>.
 DECLARE EXTENSION FUNCTION md5(data: Bytes): Bytes
 
-#|
- |  Function: sha1
- |
- |  Return the SHA1 hash of given <Bytes> as a raw <Bytes>.
- |#
+--  Function: sha1
+--
+--  Return the SHA1 hash of given <Bytes> as a raw <Bytes>.
 DECLARE EXTENSION FUNCTION sha1(data: Bytes): Bytes
 
-#|
- |  Function: sha256
- |
- |  Return the SHA256 hash of given <Bytes> as a raw <Bytes>.
- |#
+--  Function: sha256
+--
+--  Return the SHA256 hash of given <Bytes> as a raw <Bytes>.
 DECLARE EXTENSION FUNCTION sha256(data: Bytes): Bytes
 
-#|
- |  Function: sha512
- |
- |  Return the SHA512 hash of given <Bytes> as a raw <Bytes>.
- |#
+--  Function: sha512
+--
+--  Return the SHA512 hash of given <Bytes> as a raw <Bytes>.
 DECLARE EXTENSION FUNCTION sha512(data: Bytes): Bytes
 
-#|
- |  Function: toHex
- |
- |  Convert a hash as <Bytes> to its hex representation.
- |#
+--  Function: toHex
+--
+--  Convert a hash as <Bytes> to its hex representation.
 DECLARE EXTENSION FUNCTION toHex(hash: Bytes): String
