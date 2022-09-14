@@ -1,10 +1,10 @@
 IMPORT hash
 IMPORT string
 
-FUNCTION md5(s: String): Bytes RETURN hash.md5(s.toBytes()) END FUNCTION
-FUNCTION sha1(s: String): Bytes RETURN hash.sha1(s.toBytes()) END FUNCTION
-FUNCTION sha256(s: String): Bytes RETURN hash.sha256(s.toBytes()) END FUNCTION
-FUNCTION sha512(s: String): Bytes RETURN hash.sha512(s.toBytes()) END FUNCTION
+FUNCTION md5(s: String): Bytes RETURN hash.md5(s.encodeUTF8()) END FUNCTION
+FUNCTION sha1(s: String): Bytes RETURN hash.sha1(s.encodeUTF8()) END FUNCTION
+FUNCTION sha256(s: String): Bytes RETURN hash.sha256(s.encodeUTF8()) END FUNCTION
+FUNCTION sha512(s: String): Bytes RETURN hash.sha512(s.encodeUTF8()) END FUNCTION
 
 TESTCASE hash.toHex(md5("")) = "d41d8cd98f00b204e9800998ecf8427e"
 
